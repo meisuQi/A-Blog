@@ -48,17 +48,18 @@
 // // app.listen(8080,()=>{
 // //   console.log("connected to index...");
 // // })
-// const PORT = process.env.PORT || 3000;
-// app.listen(PORT, () => {
-//   console.log(`Server is running on port ${PORT}`);
-// });
+
 import express from 'express';
+import path from 'path';
 import postRouters from './routes/posts.js';
 import authRouters from './routes/auth.js';
 import userRouters from './routes/user.js';
 import cookieParser from 'cookie-parser'; 
 import bodyParser from 'body-parser';
 import multer from 'multer';
+
+// 获取当前模块的目录
+const __dirname = path.dirname(new URL(import.meta.url).pathname);
 
 const app = express();
 
@@ -89,9 +90,12 @@ app.post('/api/upload', upload.single('file'), function (req, res) {
   res.status(200).json(file.filename); // 返回文件名
 });
 
+// 提供前端静态文件
+app.use(express.static(path.join(__dirname, '../client/build'))); // 确保路径指向构建的前端文件
+
 // 根路由
 app.get('/', (req, res) => {
-  res.send('Hello World!'); // 确保服务器正常运行
+  res.sendFile(path.join(__dirname, '../client/build', 'index.html')); // 返回前端的 index.html
 });
 
 // 使用其他路由
