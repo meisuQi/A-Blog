@@ -4,7 +4,9 @@ import authRouters from "./routes/auth.js"
 import userRouters from "./routes/user.js"
 import cookieParser from "cookie-parser" 
 import bodyParser from 'body-parser';
-import multer from 'multer'
+import multer from 'multer';
+import cors from 'cors';
+
 const app=express();
 // 增加请求体的大小限制
 app.use(bodyParser.json({ limit: '50mb' }));
@@ -15,6 +17,11 @@ app.use(bodyParser.urlencoded({ limit: '50mb', extended: true }));
 app.use(express.json())
 //当客户端发送请求时，浏览器会自动将相应的 Cookie 信息添加到请求头中，cookieParser 中间件负责解析这些 Cookie，并将解析后的数据附加到请求对象 (req) 上的 cookies 属性中
 //这样，在你的后端路由处理函数中，如果需要读取或设置 Cookie，就可以直接通过 req.cookies 来访问和操作了。
+app.use(cors({
+  origin:['https://a-blog-delta.vercel.app/'],
+  methods:["POST","GET"],
+  Credentials:true
+}))
 app.use(cookieParser())
 //npm DiskStorage  store img to server
 const storage = multer.diskStorage({
