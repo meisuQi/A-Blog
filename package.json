@@ -1,5 +1,8 @@
 {
   "dependencies": {
-    "mysql": "^2.18.1"
+    "pg": "^8.13.1"
+  },
+  "devDependencies": {
+    "@types/pg": "^8.11.10"
   }
 }

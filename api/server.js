@@ -17,7 +17,11 @@ app.use(express.json())
 //这样，在你的后端路由处理函数中，如果需要读取或设置 Cookie，就可以直接通过 req.cookies 来访问和操作了。
 app.use(cookieParser())
 
-
+app.use(cors({
+  origin:["https://abolg.vercel.app"],
+  methods: ["POST","GET"],
+  Credentials:true
+}))
 //npm DiskStorage  store img to server
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
