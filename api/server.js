@@ -76,7 +76,7 @@ app.use(cookieParser());
 // 配置 multer 用于上传文件
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
-    cb(null, '../client/public/upload'); // 确保这个路径是有效的
+    cb(null, path.join(__dirname, '../client/public/upload')); // 使用 path.join 构建路径
   },
   filename: function (req, file, cb) {
     cb(null, Date.now() + file.originalname); // 生成唯一的文件名
@@ -91,11 +91,16 @@ app.post('/api/upload', upload.single('file'), function (req, res) {
 });
 
 // 提供前端静态文件
-app.use(express.static(path.join(__dirname, '../client/build'))); // 确保路径指向构建的前端文件
+app.use(express.static(path.join(__dirname, '../client/build'))); // 确保路径指向构建后的前端文件
 
-// 根路由
+// 根路由，返回前端的 index.html
 app.get('/', (req, res) => {
-  res.sendFile(path.join(__dirname, '../client/build', 'index.html')); // 返回前端的 index.html
+  res.sendFile(path.join(__dirname, '../client/build', 'index.html')); // 确保文件路径正确
+});
+
+// 处理前端的所有路由请求，返回 index.html
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname, '../client/build', 'index.html'));
 });
 
 // 使用其他路由
@@ -108,3 +113,4 @@ const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
 });
+
