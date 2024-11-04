@@ -64,11 +64,14 @@ const { Pool } = pg;
 
 // 配置 PostgreSQL 连接池
 const pool = new Pool({
-  host: process.env.DB_HOST,
-  port: process.env.DB_PORT,
-  user: process.env.DB_USER,
-  password: process.env.DB_PASSWORD,
-  database: process.env.DB_NAME,
+  host: 'dpg-csjo201u0jms73b3n1k0-a.oregon-postgres.render.com', // Render提供的主机名
+  port: 5432,                                                  // PostgreSQL默认端口
+  user: 'blog_zoe7_user',                                    // Render提供的用户名
+  password: 'UucjRVNgu8NgEuECeTKBy7OCPJSIYTc8',             // Render提供的密码
+  database: 'blog_zoe7',                                     // Render提供的数据库名称
+  ssl: {
+    rejectUnauthorized: false // 这将允许与未受信任证书的连接
+  }
 });
 
 // 连接到数据库
@@ -82,3 +85,4 @@ pool.connect((err) => {
 
 // 导出数据库连接池
 export default pool;
+
