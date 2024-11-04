@@ -18,9 +18,7 @@ app.use(express.json())
 //当客户端发送请求时，浏览器会自动将相应的 Cookie 信息添加到请求头中，cookieParser 中间件负责解析这些 Cookie，并将解析后的数据附加到请求对象 (req) 上的 cookies 属性中
 //这样，在你的后端路由处理函数中，如果需要读取或设置 Cookie，就可以直接通过 req.cookies 来访问和操作了。
 const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => {
-  console.log(`Server is running on port ${PORT}`);
-});
+
 
 app.use(cookieParser())
 //npm DiskStorage  store img to server
@@ -47,6 +45,9 @@ app.post('/api/upload', upload.single('file'), function (req, res) {
 app.use('/api/posts',postRouters)
 app.use('/api/auth',authRouters)
 app.use('/api/user',userRouters)
-app.listen(8080,()=>{
-  console.log("connected to index...");
-})
+// app.listen(8080,()=>{
+//   console.log("connected to index...");
+// })
+app.listen(PORT, () => {
+  console.log(`Server is running on port ${PORT}`);
+});
