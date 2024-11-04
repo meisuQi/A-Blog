@@ -51,15 +51,12 @@
 
 import express from 'express';
 import path from 'path';
-import postRouters from './routes/posts.js';
+import postRouters from './routes/posts.js'; // 确保这个路径正确
 import authRouters from './routes/auth.js';
 import userRouters from './routes/user.js';
 import cookieParser from 'cookie-parser'; 
 import bodyParser from 'body-parser';
 import multer from 'multer';
-
-// 获取当前模块的目录
-const __dirname = path.dirname(new URL(import.meta.url).pathname);
 
 const app = express();
 
@@ -67,19 +64,16 @@ const app = express();
 app.use(bodyParser.json({ limit: '50mb' }));
 app.use(bodyParser.urlencoded({ limit: '50mb', extended: true }));
 
-// 解析请求体
-app.use(express.json());
-
 // 解析 Cookie
 app.use(cookieParser());
 
 // 配置 multer 用于上传文件
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
-    cb(null, path.join(__dirname, '../client/public/upload')); // 使用 path.join 构建路径
+    cb(null, path.join(__dirname, '../client/public/upload'));
   },
   filename: function (req, file, cb) {
-    cb(null, Date.now() + file.originalname); // 生成唯一的文件名
+    cb(null, Date.now() + file.originalname);
   }
 });
 const upload = multer({ storage: storage });
@@ -87,15 +81,15 @@ const upload = multer({ storage: storage });
 // 上传文件的路由
 app.post('/api/upload', upload.single('file'), function (req, res) {
   const file = req.file;
-  res.status(200).json(file.filename); // 返回文件名
+  res.status(200).json(file.filename);
 });
 
 // 提供前端静态文件
-app.use(express.static(path.join(__dirname, '../client/build'))); // 确保路径指向构建后的前端文件
+app.use(express.static(path.join(__dirname, '../client/build'))); // 确保路径指向正确
 
 // 根路由，返回前端的 index.html
 app.get('/', (req, res) => {
-  res.sendFile(path.join(__dirname, '../client/build', 'index.html')); // 确保文件路径正确
+  res.sendFile(path.join(__dirname, '../client/build', 'index.html'));
 });
 
 // 处理前端的所有路由请求，返回 index.html
@@ -113,4 +107,5 @@ const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
 });
+
 
