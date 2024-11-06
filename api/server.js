@@ -70,7 +70,7 @@ app.use(cookieParser());
 // 配置 multer 用于上传文件
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
-    cb(null, path.join(__dirname, '../client/public/upload'));
+    cb(null, path.join(__dirname, './client/public/upload'));
   },
   filename: function (req, file, cb) {
     cb(null, Date.now() + file.originalname);
@@ -90,16 +90,16 @@ const __dirname = path.dirname(__filename);
 
 
 // 提供前端静态文件
-app.use(express.static(path.join(__dirname, '../client/build'))); // 确保路径指向正确
+app.use(express.static(path.join(__dirname, './client/build'))); // 确保路径指向正确
 
 // 根路由，返回前端的 index.html
 app.get('/', (req, res) => {
-  res.sendFile(path.join(__dirname, '../client/build', 'index.html'));
+  res.sendFile(path.join(__dirname, './client/build', 'index.html'));
 });
 
 // 处理前端的所有路由请求，返回 index.html
 app.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname, '../client/build', 'index.html'));
+  res.sendFile(path.join(__dirname, './client/build', 'index.html'));
 });
 
 // 使用其他路由
