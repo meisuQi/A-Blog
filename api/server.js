@@ -83,6 +83,11 @@ app.post('/api/upload', upload.single('file'), function (req, res) {
   const file = req.file;
   res.status(200).json(file.filename);
 });
+import { fileURLToPath } from 'url';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
 
 // 提供前端静态文件
 app.use(express.static(path.join(__dirname, '../client/build'))); // 确保路径指向正确
